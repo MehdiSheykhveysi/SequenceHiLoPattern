@@ -1,32 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System;
+using SequenceHiloPattern.DataBase.Interfaces;
 
 namespace SequenceHiloPattern.DataBase.Context
 {
-    internal class SequenceHiloDbContextFactory : IDesignTimeDbContextFactory<SequenceHiloContext>
+    public class UseSequenceDbContextFactory : IDbContextFactory<UseSequenceDbContext>
     {
-        public static string _connectionString { get; private set; }
+        public string _connectionString { get; set; }
 
-        public SequenceHiloContext CreateDbContext(string[] args)
+        public UseSequenceDbContext CreateDbContext(string[] args)
         {
             if (string.IsNullOrEmpty(_connectionString))
             {
                 LoadConnectionString();
             }
-
-            var builder = new DbContextOptionsBuilder<SequenceHiloContext>();
+            var builder = new DbContextOptionsBuilder<UseSequenceDbContext>();
             builder.UseSqlServer(_connectionString);
-
-            return new SequenceHiloContext(builder.Options);
+            return new UseSequenceDbContext(builder.Options);
         }
-        private static void LoadConnectionString()
+
+        public UseSequenceDbContext CreateDbContext()
+        {
+            return CreateDbContext(null);
+        }
+
+        public void LoadConnectionString()
         {
             var builder = new ConfigurationBuilder();
             builder.AddJsonFile("appsettings.json", optional: false);
             var configuration = builder.Build();
-
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
     }
