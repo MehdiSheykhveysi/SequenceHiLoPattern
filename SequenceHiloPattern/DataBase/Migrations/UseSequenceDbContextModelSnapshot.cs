@@ -3,31 +3,27 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SequenceHiloPattern.DataBase.Context;
 
-namespace SequenceHiloPattern.Migrations
+namespace SequenceHiloPattern.DataBase.Migrations
 {
     [DbContext(typeof(UseSequenceDbContext))]
-    [Migration("20190212172909_Initial")]
-    partial class Initial
+    partial class UseSequenceDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("Relational:Sequence:.DBSequence", "'DBSequence', '', '1', '1', '', '', 'Int32', 'False'")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("SequenceHiloPattern.Entitties.Category", b =>
                 {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ProducId");
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -35,16 +31,16 @@ namespace SequenceHiloPattern.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProducId");
-
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("SequenceHiloPattern.Entitties.Product", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasDefaultValueSql("newsequentialid()");
+
+                    b.Property<Guid>("CategoryId");
 
                     b.Property<DateTime?>("ExpirationDate");
 
@@ -54,14 +50,16 @@ namespace SequenceHiloPattern.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("SequenceHiloPattern.Entitties.Category", b =>
+            modelBuilder.Entity("SequenceHiloPattern.Entitties.Product", b =>
                 {
-                    b.HasOne("SequenceHiloPattern.Entitties.Product", "Product")
-                        .WithMany("Categories")
-                        .HasForeignKey("ProducId")
+                    b.HasOne("SequenceHiloPattern.Entitties.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

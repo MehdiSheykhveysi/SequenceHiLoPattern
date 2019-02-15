@@ -1,12 +1,15 @@
-﻿namespace SequenceHiloPattern.Entitties
+﻿using System;
+using System.Collections.Generic;
+
+namespace SequenceHiloPattern.Entitties
 {
-    public class Category : BaseEntity<string>
+    public class Category : BaseEntity<Guid>
     {
         public string Title { get; set; }
 
         //Navigation Property
 
-        public int ProducId { get; set; }
-        public Product Product { get; set; }
+        
+        public ICollection<Product> Products { get; set; }
     }
 }

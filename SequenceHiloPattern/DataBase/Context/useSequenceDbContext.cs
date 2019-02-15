@@ -9,8 +9,6 @@ namespace SequenceHiloPattern.DataBase.Context
         
         public UseSequenceDbContext(DbContextOptions options):base(options)
         {
-            Database.EnsureCreated();
-            Database.EnsureDeleted();
         }
 
         public DbSet<Product> Products { get; set; }
@@ -20,7 +18,8 @@ namespace SequenceHiloPattern.DataBase.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.HasSequence<int>("DBSequence");
+            // modelBuilder.HasSequence<int>("DBSequence"); If You Wanna Use Sequential Comment Out This Line
+            
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
         }
     }

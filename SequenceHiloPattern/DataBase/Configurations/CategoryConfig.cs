@@ -10,8 +10,9 @@ namespace SequenceHiloPattern.DataBase.Configurations
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasKey(c => c.ID);
+            builder.Property(c => c.ID).ValueGeneratedOnAdd();  //[DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
             builder.Property(p => p.Title).HasMaxLength(50).IsRequired();
-            builder.HasOne(p => p.Product).WithMany(c => c.Categories).HasForeignKey(FK => FK.ProducId);
+            builder.Property(c => c.ID).HasDefaultValueSql("newsequentialid()");
         }
     }
 }
