@@ -11,8 +11,8 @@ namespace SequenceHiloPattern.DataBase.Configurations
             builder.HasKey(c => c.ID);
             builder.Property(c => c.ID).ValueGeneratedOnAdd();  //[DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
             builder.Property(p => p.ManufactureDate).IsRequired();
-            builder.HasOne(c => c.Category).WithMany(P=>P.Products).HasForeignKey(FK => FK.CategoryId);
-            builder.Property(c => c.ID).HasDefaultValueSql("newsequentialid()");
+            builder.HasOne(c => c.Category).WithMany(P => P.Products).HasForeignKey(FK => FK.CategoryId);
+            builder.Property(c => c.ID).HasDefaultValueSql("newsequentialid()"); //Use Sequential Guid In SqlServer For Generate Key
         }
     }
 }

@@ -18,8 +18,8 @@ namespace SequenceHiloPattern.DataBase.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // modelBuilder.HasSequence<int>("DBSequence"); If You Wanna Use Sequential Comment Out This Line
-            
+            // modelBuilder.HasSequence<int>("DBSequence"); If You Wanna Use Sequence Comment Out This Line
+           // modelBuilder.ForSqlServerUseSequenceHiLo("DBSequenceHiLo");Comment out This Line For Use Sequence Hilo 
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
         }
     }

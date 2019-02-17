@@ -12,7 +12,7 @@ namespace SequenceHiloPattern.DataBase.Configurations
             builder.HasKey(c => c.ID);
             builder.Property(c => c.ID).ValueGeneratedOnAdd();  //[DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
             builder.Property(p => p.Title).HasMaxLength(50).IsRequired();
-            builder.Property(c => c.ID).HasDefaultValueSql("newsequentialid()");
+            builder.Property(c => c.ID).HasDefaultValueSql("newsequentialid()"); //Use Sequential Guid In SqlServer For Generate Key
         }
     }
 }
