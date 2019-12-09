@@ -9,6 +9,7 @@ namespace SequenceHiloPattern.DataBase.Configurations
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.HasKey(c => c.ID);
+            builder.Property(c => c.Price).HasColumnType("decimal(10,2)");
             builder.Property(c => c.ID).ValueGeneratedOnAdd();  //[DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
             builder.Property(p => p.ManufactureDate).IsRequired();
             builder.HasOne(c => c.Category).WithMany(P => P.Products).HasForeignKey(FK => FK.CategoryId);
